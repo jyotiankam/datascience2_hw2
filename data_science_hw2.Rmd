@@ -65,4 +65,25 @@ anova(fit1, fit2, fit3, fit4)
 
 ```
 
+Question 2:
 
+```{r}
+
+fit.ss.cv <- smooth.spline(conc_df$Water, conc_df$CompressiveStrength, cv = TRUE)
+fit.ss.cv$df
+fit.ss <- smooth.spline(conc_df$Water, conc_df$CompressiveStrength)
+fit.ss$df
+
+```
+
+
+```{r}
+lims_water <- range(conc_df$Water)
+water.grid <- seq(from = lims_water[1], to = lims_water[2])
+```
+
+
+```{r}
+gam.m1 <- gam(CompressiveStrength ~ . + s(Water), data = conc_df)
+plot(gam.m1)
+```
