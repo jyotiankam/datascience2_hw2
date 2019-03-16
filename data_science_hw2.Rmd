@@ -1,0 +1,68 @@
+---
+title: "datascience_hw2"
+author: "Jyoti Ankam"
+date: "March 16, 2019"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = F)
+knitr::opts_chunk$set(message = F)
+```
+
+```{r}
+
+library(tidyverse)
+library(caret)
+
+```
+
+Reading/loading the datasets:
+
+```{r}
+
+conc_df <- read.csv("C:/Users/Jyoti/Desktop/Data_Science/data/concrete.csv")
+
+```
+
+
+```{r}
+
+x = model.matrix(CompressiveStrength ~ ., conc_df)[,-1]
+y = conc_df$CompressiveStrength
+
+```
+
+##Scatter Plots
+
+```{r}
+
+theme1 <- trellis.par.get()
+theme1$plot.symbol$col <- rgb(.3, .5, .2, .5)
+theme1$plot.symbol$pch <- 18   
+theme1$plot.line$col <- rgb(.8, .1, .1, 1)
+theme1$plot.line$lwd <- 2
+theme1$strip.background$col <- rgb(.0, .2, .6, .2)
+trellis.par.set(theme1)
+featurePlot(x, y, plot = "scatter", labels = c("","Y"),
+            type = c("p"), layout = c(4, 2))
+
+```
+
+```{r}
+
+fit1 = lm(CompressiveStrength ~ Water, data = conc_df)
+fit2 = lm(CompressiveStrength ~ poly(Water, 2), data = conc_df)
+fit3 = lm(CompressiveStrength ~ poly(Water, 3), data = conc_df)
+fit4 = lm(CompressiveStrength ~ poly(Water, 4), data = conc_df)
+
+```
+
+```{r}
+
+anova(fit1, fit2, fit3, fit4)
+
+```
+
+
